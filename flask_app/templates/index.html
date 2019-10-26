@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+
+    </style>
+</head>
+<body>
+<!--<h1>HTML Image{{value}}</h1>-->
+<p>Select one of the two celebrities:</p>
+
+<div class="row">
+    <div class="column">
+        <form action="{{next_path}}/{{left_id}}/{{right_id}}" method="get">
+            <button name="foo" value="upvote">
+                <img src="{{url_for('static', filename=left_image_path)}}" alt="LEFT"
+                     style="width:100%">
+            </button>
+        </form>
+    </div>
+    <div class="column">
+        <form action="{{next_path}}/{{right_id}}/{{left_id}}" method="get">
+            <button name="foo" value="upvote">
+                <img src="{{url_for('static', filename=right_image_path)}}" alt="RIGHT"
+                     style="width:100%">
+            </button>
+        </form>
+    </div>
+</div>
+<p>So far {{num_matches}} celebrity pairs voted:
+<form action="{{ranking_url}}" method="get">
+    <button name="foo" value="upvote">
+        Click here to see ranking
+    </button>
+</p>
+</body>
+</html>

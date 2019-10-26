@@ -50,20 +50,23 @@ class MatrixEPLoop:
             print(f'{self.player_names[winner]} beated {self.player_names[losser]}')
         return winner, losser
 
-    def produce_ranking(self):
+    def produce_ranking(self, logging=True):
         """
         Produce a top-10 ranking of the players based on the marginal skill distribution mean.
         """
         skills = self.player_stats[:, 0, 0]
-        player_names = np.take_along_axis(np.array(self.player_names), skills.argsort(), axis=0)
+        player_names = np.flip(np.take_along_axis(np.array(self.player_names),
+                                                  skills.argsort(), axis=0))
         top = 10
-        for position, player_name in enumerate(reversed(player_names[-top:])):
-            print(f"Position #{position + 1}: {player_name}")
+        if logging:
+            for position, player_name in enumerate(player_names[:top]):
+                print(f"Position #{position + 1}: {player_name}")
+        return player_names
 
 
 if __name__ == '__main__':
-    players, player_names = PlayerStatsFactory.create_from_csv('data/players.csv')
-    games, history = GameStatsFactory.create_from_csv('data/games.csv')
+    players, player_names, N = PlayerStatsFactory.create_from_csv('../data/players.csv')
+    games, history = GameStatsFactory.create_from_csv('../data/games.csv', N)
     ep = MatrixEPLoop(players, games, history, player_names)
     ep.run(100)
     ep.produce_ranking()

@@ -107,6 +107,7 @@ class MatrixSkillUpdates:
         downwards_w_precision = game_stats[:, 6, 1]
         downwards_w_natural_mean = _natural_mean(downwards_w_precision, game_stats[:, 6, 0])
         # Updates
+
         for player_id in history.player_ids:
             loss_idx, win_idx = history.losses[player_id], history.wins[player_id]
             player_stats[player_id, 2, 1] = np.sum(downwards_l_precision[loss_idx])
@@ -159,7 +160,7 @@ def _mean(precision, natural_mean):
 
 
 def _var(precision):
-    assert np.min(precision, axis=0) > 0
+    assert np.min(precision, axis=0) > 0.
     return 1. / precision
 
 
